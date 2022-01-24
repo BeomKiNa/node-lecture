@@ -14,7 +14,6 @@ const list = [
   {
     name: "JS",
   },
-
   {
     name: "NODE",
   },
