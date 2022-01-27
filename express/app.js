@@ -5,6 +5,7 @@ const PORT = 8080;
 
 app.all("/api", (req, res, next) => {
   // 딱 작성된 주소와 일치하는 경우에만 작동
+  // /api/* 식으로 작성하면 use와 동일하게 작동
   console.log("all");
   next();
 });
