@@ -1,6 +1,8 @@
 import express from "express";
 import fs from "fs";
 import fsAsync from "fs/promises";
+// require("express-async-errors");
+import {} from "express-async-errors";
 
 const app = express();
 
@@ -27,21 +29,15 @@ app.get("/file1", (req, res) => {
 
 app.get("/file2", (req, res) => {
   // Promise
-  fsAsync
-    .readFile("/file2.txt") //
-    .catch((error) => {
-      res.sendStatus(404);
-    });
+  return fsAsync.readFile("/file2.txt");
+  // express-async-errors를 사용한다면 Promise의 경우 return을 해주면 되고, async-await는 Promise로 감싸지기 때문에 그냥 사용하면 된다.
+  // 그러면 Promise의 에러도 catch를 사용하지 않고 잡아낼 수 있음
 });
 
 app.get("/file3", async (req, res) => {
   // async를 사용하면 함수 자체가 Promise로 감싸지고, 내부에서는 동기처럼 작동한다.
   // 하지만 외부에서는 내부에서 발생한 에러를 알 수 없으므로 try-catch로 에러를 잡아준다.
-  try {
-    const data = await fsAsync.readFile("/file2.txt");
-  } catch {
-    res.sendStatus(404);
-  }
+  const data = await fsAsync.readFile("/file2.txt");
 });
 
 // 버전 5 이하에서는: require('express-async-errors');
